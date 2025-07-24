@@ -35,17 +35,13 @@ I’m all-in on AI, creative tech, and building tools that make life and work ea
 ## 🌐 Let’s Connect
 
 - [Personal Website](https://andrecliff.com)
-- [LinkedIn](https://www.linkedin.com/in/andrecliff/) *(add your real link!)*
-- [Instagram](https://www.instagram.com/yourhandle/) *(add your real handle!)*
+- [LinkedIn](https://www.linkedin.com/in/andre-cliff/) 
+- [Instagram](https://www.instagram.com/mrandrecliff/)
 
 ---
 
 ![Andre’s GitHub stats](https://github-readme-stats.vercel.app/api?username=AndreCliff&show_icons=true&hide_rank=true)
-<!-- You can also add a top languages card:
-[![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=AndreCliff)](https://github.com/AndreCliff/github-readme-stats)
--->
 
-<!-- Badges: You can use shields.io for tech badges or social badges -->
 
 ---
 
