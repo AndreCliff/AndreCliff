@@ -1,0 +1,682 @@
+/* ==========================================================================
+   Retro Tape Deck MP3 Player – Early 1990s Dual Cassette Deck
+   ========================================================================== */
+
+/* ---------- Reset & host wrapper ---------- */
+.rtd-player *,
+.rtd-player *::before,
+.rtd-player *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.rtd-player {
+    --deck-bg: #3a3a3a;
+    --deck-border: #1a1a1a;
+    --deck-highlight: #555;
+    --deck-shadow: #111;
+    --cassette-well: #1e1e1e;
+    --reel-hub: #222;
+    --reel-spoke: #444;
+    --tape-brown: #4a2c0a;
+    --led-green: #33ff33;
+    --led-red: #ff3333;
+    --led-amber: #ffaa00;
+    --btn-face: #666;
+    --btn-shadow: #333;
+    --btn-highlight: #888;
+    --label-text: #ccc;
+    --lcd-bg: #1a2a10;
+    --lcd-text: #33ff33;
+
+    font-family: "Courier New", Courier, monospace;
+    max-width: 780px;
+    margin: 2rem auto;
+    background: var(--deck-bg);
+    border: 3px solid var(--deck-border);
+    border-radius: 10px;
+    padding: 20px 24px 18px;
+    box-shadow:
+        inset 0 1px 0 var(--deck-highlight),
+        0 6px 20px rgba(0, 0, 0, 0.6);
+    position: relative;
+    user-select: none;
+}
+
+/* ---------- Brand strip ---------- */
+.rtd-brand {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.rtd-brand-name {
+    font-size: 22px;
+    font-weight: bold;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: #d4af37;
+    text-shadow: 0 1px 2px #000;
+}
+
+.rtd-brand-model {
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--label-text);
+    text-transform: uppercase;
+}
+
+/* ---------- LCD Display ---------- */
+.rtd-display {
+    background: var(--lcd-bg);
+    border: 2px inset #111;
+    border-radius: 4px;
+    padding: 8px 14px;
+    margin-bottom: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 52px;
+}
+
+.rtd-display-track {
+    color: var(--lcd-text);
+    font-size: 13px;
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.rtd-display-track.scrolling {
+    animation: rtd-scroll 10s linear infinite;
+}
+
+@keyframes rtd-scroll {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+}
+
+.rtd-display-time {
+    color: var(--lcd-text);
+    font-size: 18px;
+    min-width: 70px;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+/* ---------- VU Meter ---------- */
+.rtd-vu-container {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    margin-bottom: 12px;
+}
+
+.rtd-vu-meter {
+    display: flex;
+    gap: 2px;
+    align-items: flex-end;
+    height: 22px;
+}
+
+.rtd-vu-meter .vu-bar {
+    width: 6px;
+    background: var(--led-green);
+    border-radius: 1px;
+    transition: height 0.08s ease;
+    height: 2px;
+}
+
+.rtd-vu-meter .vu-bar:nth-child(n+9) {
+    background: var(--led-amber);
+}
+
+.rtd-vu-meter .vu-bar:nth-child(n+12) {
+    background: var(--led-red);
+}
+
+.rtd-vu-label {
+    font-size: 9px;
+    color: var(--label-text);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    writing-mode: vertical-lr;
+    transform: rotate(180deg);
+}
+
+/* ---------- Dual cassette wells ---------- */
+.rtd-wells {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.rtd-well {
+    flex: 1;
+    background: var(--cassette-well);
+    border: 2px inset #111;
+    border-radius: 6px;
+    padding: 14px 10px;
+    position: relative;
+    min-height: 120px;
+}
+
+.rtd-well-label {
+    position: absolute;
+    top: 4px;
+    left: 8px;
+    font-size: 9px;
+    color: var(--label-text);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* ---------- Tape reels ---------- */
+.rtd-reels {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding-top: 10px;
+}
+
+.rtd-reel {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--reel-hub);
+    border: 3px solid #555;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.rtd-reel-inner {
+    width: 18px;
+    height: 18px;
+    background: #111;
+    border-radius: 50%;
+    border: 2px solid #444;
+}
+
+/* Spokes */
+.rtd-reel::before,
+.rtd-reel::after {
+    content: "";
+    position: absolute;
+    width: 2px;
+    height: 100%;
+    background: var(--reel-spoke);
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+}
+
+.rtd-reel::after {
+    transform: translateX(-50%) rotate(60deg);
+}
+
+.rtd-reel .spoke-3 {
+    position: absolute;
+    width: 2px;
+    height: 100%;
+    background: var(--reel-spoke);
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%) rotate(120deg);
+}
+
+/* Spinning animation */
+.rtd-reel.spinning {
+    animation: rtd-spin 2s linear infinite;
+}
+
+@keyframes rtd-spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+
+/* Tape strip between reels */
+.rtd-tape-strip {
+    position: absolute;
+    top: 75%;
+    left: 20%;
+    right: 20%;
+    height: 6px;
+    background: var(--tape-brown);
+    border-radius: 2px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+}
+
+/* ---------- Transport controls ---------- */
+.rtd-controls {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 14px;
+}
+
+.rtd-btn {
+    width: 48px;
+    height: 36px;
+    background: linear-gradient(to bottom, var(--btn-highlight), var(--btn-face));
+    border: 2px outset var(--btn-highlight);
+    border-radius: 3px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ddd;
+    font-size: 14px;
+    transition: all 0.05s;
+    position: relative;
+}
+
+.rtd-btn:hover {
+    background: linear-gradient(to bottom, #999, #777);
+}
+
+.rtd-btn:active,
+.rtd-btn.active {
+    border-style: inset;
+    background: linear-gradient(to bottom, #555, #666);
+    padding-top: 2px;
+}
+
+.rtd-btn svg {
+    width: 16px;
+    height: 16px;
+    fill: #ddd;
+}
+
+.rtd-btn-label {
+    position: absolute;
+    bottom: -14px;
+    font-size: 7px;
+    color: var(--label-text);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    white-space: nowrap;
+}
+
+/* Play button – triangular icon via CSS */
+.rtd-btn-play .icon-play {
+    width: 0;
+    height: 0;
+    border-top: 7px solid transparent;
+    border-bottom: 7px solid transparent;
+    border-left: 12px solid #ddd;
+    margin-left: 2px;
+}
+
+/* Pause icon */
+.rtd-btn-pause .icon-pause {
+    display: flex;
+    gap: 3px;
+}
+
+.rtd-btn-pause .icon-pause span {
+    width: 4px;
+    height: 14px;
+    background: #ddd;
+    border-radius: 1px;
+}
+
+/* Stop icon */
+.rtd-btn-stop .icon-stop {
+    width: 12px;
+    height: 12px;
+    background: #ddd;
+    border-radius: 1px;
+}
+
+/* Rewind icon */
+.rtd-btn-rew .icon-rew {
+    display: flex;
+    align-items: center;
+}
+
+.rtd-btn-rew .icon-rew span {
+    width: 0;
+    height: 0;
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-right: 8px solid #ddd;
+}
+
+/* Fast-forward icon */
+.rtd-btn-ff .icon-ff {
+    display: flex;
+    align-items: center;
+}
+
+.rtd-btn-ff .icon-ff span {
+    width: 0;
+    height: 0;
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-left: 8px solid #ddd;
+}
+
+/* Prev / Next track */
+.rtd-btn-prev .icon-prev,
+.rtd-btn-next .icon-next {
+    display: flex;
+    align-items: center;
+    gap: 1px;
+}
+
+.rtd-btn-prev .icon-prev span:first-child {
+    width: 3px;
+    height: 12px;
+    background: #ddd;
+}
+
+.rtd-btn-prev .icon-prev span:last-child {
+    width: 0;
+    height: 0;
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-right: 8px solid #ddd;
+}
+
+.rtd-btn-next .icon-next span:first-child {
+    width: 0;
+    height: 0;
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-left: 8px solid #ddd;
+}
+
+.rtd-btn-next .icon-next span:last-child {
+    width: 3px;
+    height: 12px;
+    background: #ddd;
+}
+
+/* Eject */
+.rtd-btn-eject .icon-eject {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+
+.rtd-btn-eject .icon-eject span:first-child {
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 7px solid #ddd;
+}
+
+.rtd-btn-eject .icon-eject span:last-child {
+    width: 14px;
+    height: 3px;
+    background: #ddd;
+    border-radius: 1px;
+}
+
+/* ---------- Volume / progress row ---------- */
+.rtd-sliders-row {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 0 4px;
+}
+
+.rtd-slider-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.rtd-slider-group label {
+    font-size: 9px;
+    color: var(--label-text);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    min-width: 46px;
+}
+
+.rtd-progress-wrap {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.rtd-progress-wrap label {
+    font-size: 9px;
+    color: var(--label-text);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Styled range sliders */
+.rtd-slider,
+.rtd-progress-bar {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 6px;
+    background: #222;
+    border: 1px inset #111;
+    border-radius: 3px;
+    outline: none;
+    cursor: pointer;
+}
+
+.rtd-slider {
+    width: 80px;
+}
+
+.rtd-progress-bar {
+    flex: 1;
+}
+
+.rtd-slider::-webkit-slider-thumb,
+.rtd-progress-bar::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 14px;
+    height: 18px;
+    background: linear-gradient(to bottom, #aaa, #666);
+    border: 1px solid #444;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+.rtd-slider::-moz-range-thumb,
+.rtd-progress-bar::-moz-range-thumb {
+    width: 14px;
+    height: 18px;
+    background: linear-gradient(to bottom, #aaa, #666);
+    border: 1px solid #444;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+/* ---------- Playlist drawer (Deck B) ---------- */
+.rtd-playlist-toggle {
+    display: block;
+    width: 100%;
+    background: linear-gradient(to bottom, #555, #444);
+    border: 2px outset #666;
+    border-radius: 3px;
+    color: var(--label-text);
+    font-family: inherit;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 5px 0;
+    cursor: pointer;
+    margin-bottom: 6px;
+}
+
+.rtd-playlist-toggle:hover {
+    background: linear-gradient(to bottom, #666, #555);
+}
+
+.rtd-playlist {
+    display: none;
+    max-height: 200px;
+    overflow-y: auto;
+    background: #111;
+    border: 1px inset #000;
+    border-radius: 3px;
+}
+
+.rtd-playlist.open {
+    display: block;
+}
+
+.rtd-playlist ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.rtd-playlist li {
+    padding: 6px 10px;
+    font-size: 11px;
+    color: #aaa;
+    cursor: pointer;
+    border-bottom: 1px solid #222;
+    display: flex;
+    justify-content: space-between;
+}
+
+.rtd-playlist li:hover {
+    background: #1a2a10;
+    color: var(--lcd-text);
+}
+
+.rtd-playlist li.active {
+    background: #1a2a10;
+    color: var(--lcd-text);
+}
+
+.rtd-playlist li .track-num {
+    min-width: 22px;
+    color: #666;
+}
+
+.rtd-playlist li .track-duration {
+    color: #666;
+    font-size: 10px;
+}
+
+/* ---------- Bottom label strip ---------- */
+.rtd-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 6px;
+    border-top: 1px solid #555;
+}
+
+.rtd-footer-left,
+.rtd-footer-right {
+    font-size: 8px;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* ---------- LED indicator ---------- */
+.rtd-led {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #220000;
+    border: 1px solid #333;
+    display: inline-block;
+    margin-right: 4px;
+    vertical-align: middle;
+}
+
+.rtd-led.on {
+    background: var(--led-green);
+    box-shadow: 0 0 6px var(--led-green);
+}
+
+.rtd-led.recording {
+    background: var(--led-red);
+    box-shadow: 0 0 6px var(--led-red);
+}
+
+/* ---------- Deck label badges ---------- */
+.rtd-deck-badge {
+    display: inline-block;
+    background: #d4af37;
+    color: #111;
+    font-size: 9px;
+    font-weight: bold;
+    padding: 1px 6px;
+    border-radius: 2px;
+    letter-spacing: 2px;
+    position: absolute;
+    top: 4px;
+    right: 8px;
+}
+
+/* ---------- Screws (decorative) ---------- */
+.rtd-screw {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #888, #333);
+    border: 1px solid #222;
+}
+
+.rtd-screw::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 6px;
+    height: 1px;
+    background: #111;
+    transform: translate(-50%, -50%) rotate(30deg);
+}
+
+.rtd-screw.tl { top: 6px; left: 6px; }
+.rtd-screw.tr { top: 6px; right: 6px; }
+.rtd-screw.bl { bottom: 6px; left: 6px; }
+.rtd-screw.br { bottom: 6px; right: 6px; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 600px) {
+    .rtd-player {
+        padding: 14px 10px 12px;
+    }
+
+    .rtd-wells {
+        flex-direction: column;
+    }
+
+    .rtd-btn {
+        width: 38px;
+        height: 30px;
+    }
+
+    .rtd-display-track {
+        font-size: 11px;
+    }
+
+    .rtd-display-time {
+        font-size: 14px;
+    }
+
+    .rtd-sliders-row {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .rtd-brand-name {
+        font-size: 16px;
+        letter-spacing: 4px;
+    }
+}
