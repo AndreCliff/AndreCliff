@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class RTD_Shortcode {
 
     /**
-     * Render the dual tape deck player.
+     * Render the single tape deck player.
      *
      * @param array $atts Shortcode attributes.
      * @return string HTML output.
@@ -34,7 +34,7 @@ class RTD_Shortcode {
         }
 
         $brand = ! empty( $atts['brand'] ) ? $atts['brand'] : get_option( 'rtd_brand_name', 'RetroSound' );
-        $model = ! empty( $atts['model'] ) ? $atts['model'] : get_option( 'rtd_model_name', 'Dual Cassette Stereo System' );
+        $model = ! empty( $atts['model'] ) ? $atts['model'] : get_option( 'rtd_model_name', 'Cassette Player' );
 
         // Sanitise track data for JSON embed
         $safe_tracks = array();
@@ -51,21 +51,57 @@ class RTD_Shortcode {
         ob_start();
         ?>
         <div class="rtd-player">
-            <!-- Decorative screws -->
-            <div class="rtd-screw tl"></div>
-            <div class="rtd-screw tr"></div>
-            <div class="rtd-screw bl"></div>
-            <div class="rtd-screw br"></div>
 
-            <!-- Brand -->
-            <div class="rtd-brand">
-                <div class="rtd-brand-name"><?php echo esc_html( $brand ); ?></div>
-                <div class="rtd-brand-model"><?php echo esc_html( $model ); ?></div>
+            <!-- Top bar: Power | Brand | Counter -->
+            <div class="rtd-top-bar">
+                <div class="rtd-power-section">
+                    <span class="rtd-power-label">Power</span>
+                    <span class="rtd-led"></span>
+                </div>
+                <div class="rtd-brand">
+                    <div class="rtd-brand-name"><?php echo esc_html( $brand ); ?></div>
+                    <div class="rtd-brand-model"><?php echo esc_html( $model ); ?></div>
+                </div>
+                <div class="rtd-counter-section">
+                    <div class="rtd-counter-label">Counter</div>
+                    <span class="rtd-display-time" style="font-family:'Courier New',monospace;font-size:13px;color:#5a5248;">0:00</span>
+                </div>
+            </div>
+
+            <!-- Cassette window -->
+            <div class="rtd-cassette-window">
+                <div class="rtd-cassette">
+                    <!-- Label -->
+                    <div class="rtd-cassette-label">
+                        <div class="rtd-cassette-label-lines"></div>
+                        <span class="rtd-cassette-side">A Side</span>
+                        <div class="rtd-cassette-type">
+                            <span>Noise Reduction</span>
+                            <span>In / Out</span>
+                        </div>
+                    </div>
+                    <!-- Reels -->
+                    <div class="rtd-reels-area">
+                        <div class="rtd-reel">
+                            <div class="rtd-reel-inner"></div>
+                            <div class="spoke-3"></div>
+                        </div>
+                        <div class="rtd-tape-bridge"></div>
+                        <div class="rtd-reel">
+                            <div class="rtd-reel-inner"></div>
+                            <div class="spoke-3"></div>
+                        </div>
+                    </div>
+                    <!-- Guide posts -->
+                    <div class="rtd-cassette-guides">
+                        <div class="rtd-guide-post"></div>
+                        <div class="rtd-guide-post"></div>
+                    </div>
+                </div>
             </div>
 
             <!-- LCD display -->
             <div class="rtd-display">
-                <span class="rtd-led"></span>
                 <span class="rtd-display-track">-- NO TAPE --</span>
                 <span class="rtd-display-time">0:00</span>
             </div>
@@ -86,77 +122,42 @@ class RTD_Shortcode {
                 </div>
             </div>
 
-            <!-- Dual cassette wells -->
-            <div class="rtd-wells">
-                <!-- Deck A – playback -->
-                <div class="rtd-well rtd-well-a">
-                    <span class="rtd-well-label">Deck A — Play</span>
-                    <span class="rtd-deck-badge">A</span>
-                    <div class="rtd-reels">
-                        <div class="rtd-reel">
-                            <div class="rtd-reel-inner"></div>
-                            <div class="spoke-3"></div>
-                        </div>
-                        <div class="rtd-reel">
-                            <div class="rtd-reel-inner"></div>
-                            <div class="spoke-3"></div>
-                        </div>
-                    </div>
-                    <div class="rtd-tape-strip"></div>
-                </div>
-
-                <!-- Deck B – playlist / second deck visual -->
-                <div class="rtd-well rtd-well-b">
-                    <span class="rtd-well-label">Deck B — Playlist</span>
-                    <span class="rtd-deck-badge">B</span>
-                    <div class="rtd-reels">
-                        <div class="rtd-reel">
-                            <div class="rtd-reel-inner"></div>
-                            <div class="spoke-3"></div>
-                        </div>
-                        <div class="rtd-reel">
-                            <div class="rtd-reel-inner"></div>
-                            <div class="spoke-3"></div>
-                        </div>
-                    </div>
-                    <div class="rtd-tape-strip"></div>
-                </div>
-            </div>
-
             <!-- Transport controls -->
-            <div class="rtd-controls">
-                <button class="rtd-btn rtd-btn-prev" title="Previous Track">
-                    <div class="icon-prev"><span></span><span></span></div>
-                    <span class="rtd-btn-label">Prev</span>
-                </button>
-                <button class="rtd-btn rtd-btn-rew" title="Rewind">
-                    <div class="icon-rew"><span></span><span></span></div>
-                    <span class="rtd-btn-label">Rew</span>
-                </button>
-                <button class="rtd-btn rtd-btn-play" title="Play">
-                    <div class="icon-play"></div>
-                    <span class="rtd-btn-label">Play</span>
-                </button>
-                <button class="rtd-btn rtd-btn-pause" title="Pause">
-                    <div class="icon-pause"><span></span><span></span></div>
-                    <span class="rtd-btn-label">Pause</span>
-                </button>
-                <button class="rtd-btn rtd-btn-stop" title="Stop">
-                    <div class="icon-stop"></div>
-                    <span class="rtd-btn-label">Stop</span>
-                </button>
-                <button class="rtd-btn rtd-btn-ff" title="Fast Forward">
-                    <div class="icon-ff"><span></span><span></span></div>
-                    <span class="rtd-btn-label">F.Fwd</span>
-                </button>
-                <button class="rtd-btn rtd-btn-next" title="Next Track">
-                    <div class="icon-next"><span></span><span></span></div>
-                    <span class="rtd-btn-label">Next</span>
-                </button>
-                <button class="rtd-btn rtd-btn-eject" title="Eject">
-                    <div class="icon-eject"><span></span><span></span></div>
-                    <span class="rtd-btn-label">Eject</span>
-                </button>
+            <div class="rtd-controls-section">
+                <div class="rtd-controls">
+                    <button class="rtd-btn rtd-btn-stop" title="Stop/Eject">
+                        <div class="icon-stop"></div>
+                        <span class="rtd-btn-label">Stop</span>
+                    </button>
+                    <button class="rtd-btn rtd-btn-prev" title="Previous Track">
+                        <div class="icon-prev"><span></span><span></span></div>
+                        <span class="rtd-btn-label">Prev</span>
+                    </button>
+                    <button class="rtd-btn rtd-btn-rew" title="Rewind">
+                        <div class="icon-rew"><span></span><span></span></div>
+                        <span class="rtd-btn-label">Rew</span>
+                    </button>
+                    <button class="rtd-btn rtd-btn-ff" title="Fast Forward">
+                        <div class="icon-ff"><span></span><span></span></div>
+                        <span class="rtd-btn-label">F.Fwd</span>
+                    </button>
+                    <button class="rtd-btn rtd-btn-next" title="Next Track">
+                        <div class="icon-next"><span></span><span></span></div>
+                        <span class="rtd-btn-label">Next</span>
+                    </button>
+                    <button class="rtd-btn rtd-btn-play" title="Play">
+                        <div class="icon-play"></div>
+                        <span class="rtd-btn-label">Play</span>
+                    </button>
+                    <button class="rtd-btn rtd-btn-pause" title="Pause">
+                        <div class="icon-pause"><span></span><span></span></div>
+                        <span class="rtd-btn-label">Pause</span>
+                    </button>
+                    <button class="rtd-btn rtd-btn-eject" title="Eject">
+                        <div class="icon-eject"><span></span><span></span></div>
+                        <span class="rtd-btn-label">Eject</span>
+                    </button>
+                </div>
             </div>
 
             <!-- Volume & progress -->
@@ -172,15 +173,15 @@ class RTD_Shortcode {
             </div>
 
             <!-- Playlist drawer -->
-            <button class="rtd-playlist-toggle">&#9654; Playlist (Deck B)</button>
+            <button class="rtd-playlist-toggle">&#9654; Playlist</button>
             <div class="rtd-playlist">
                 <ol></ol>
             </div>
 
             <!-- Footer -->
             <div class="rtd-footer">
-                <span class="rtd-footer-left">Auto Reverse &bull; Dolby B NR</span>
-                <span class="rtd-footer-right">Stereo &bull; CrO&#8322; / Metal</span>
+                <span class="rtd-footer-left">Auto Reverse &bull; Noise Reduction</span>
+                <span class="rtd-footer-right">Stereo &bull; Normal / CrO&#8322;</span>
             </div>
 
             <!-- Track data (consumed by JS) -->

@@ -1,8 +1,8 @@
 /* ==========================================================================
-   Retro Tape Deck MP3 Player – Early 1990s Dual Cassette Deck
+   Retro Tape Deck MP3 Player – Single Cassette Deck (Light / Cream)
    ========================================================================== */
 
-/* ---------- Reset & host wrapper ---------- */
+/* ---------- Reset ---------- */
 .rtd-player *,
 .rtd-player *::before,
 .rtd-player *::after {
@@ -12,192 +12,226 @@
 }
 
 .rtd-player {
-    --deck-bg: #3a3a3a;
-    --deck-border: #1a1a1a;
-    --deck-highlight: #555;
-    --deck-shadow: #111;
-    --cassette-well: #1e1e1e;
-    --reel-hub: #222;
-    --reel-spoke: #444;
-    --tape-brown: #4a2c0a;
-    --led-green: #33ff33;
-    --led-red: #ff3333;
-    --led-amber: #ffaa00;
-    --btn-face: #666;
-    --btn-shadow: #333;
-    --btn-highlight: #888;
-    --label-text: #ccc;
-    --lcd-bg: #1a2a10;
-    --lcd-text: #33ff33;
+    --body-bg: #e8e0d4;
+    --body-border: #c8bfb2;
+    --body-shadow: #b5ad9f;
+    --well-bg: #d6cec2;
+    --well-border: #b0a898;
+    --cassette-bg: #f5f0e8;
+    --cassette-border: #c0b8a8;
+    --cassette-label-bg: #e8c8a0;
+    --cassette-label-border: #d4a870;
+    --reel-hub: #2a2520;
+    --reel-ring: #3d3630;
+    --reel-spoke: #4a4038;
+    --tape-brown: #3a2a18;
+    --btn-bg: #d8d0c4;
+    --btn-border: #b8b0a0;
+    --btn-pressed: #c8c0b4;
+    --label-text: #5a5248;
+    --label-light: #8a8278;
+    --lcd-bg: #2a3020;
+    --lcd-text: #66dd66;
+    --led-off: #443030;
+    --led-on: #ee4422;
+    --accent: #c04020;
 
-    font-family: "Courier New", Courier, monospace;
-    max-width: 780px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    max-width: 620px;
     margin: 2rem auto;
-    background: var(--deck-bg);
-    border: 3px solid var(--deck-border);
-    border-radius: 10px;
-    padding: 20px 24px 18px;
+    background: linear-gradient(180deg, #ede6da 0%, var(--body-bg) 30%, #ddd6c8 100%);
+    border: 1px solid var(--body-border);
+    border-radius: 6px;
+    padding: 20px 28px 16px;
     box-shadow:
-        inset 0 1px 0 var(--deck-highlight),
-        0 6px 20px rgba(0, 0, 0, 0.6);
+        inset 0 1px 0 rgba(255, 255, 255, 0.6),
+        inset 0 -1px 0 var(--body-shadow),
+        0 4px 16px rgba(0, 0, 0, 0.15),
+        0 1px 3px rgba(0, 0, 0, 0.1);
     position: relative;
     user-select: none;
 }
 
-/* ---------- Brand strip ---------- */
-.rtd-brand {
-    text-align: center;
-    margin-bottom: 10px;
-}
-
-.rtd-brand-name {
-    font-size: 22px;
-    font-weight: bold;
-    letter-spacing: 6px;
-    text-transform: uppercase;
-    color: #d4af37;
-    text-shadow: 0 1px 2px #000;
-}
-
-.rtd-brand-model {
-    font-size: 10px;
-    letter-spacing: 3px;
-    color: var(--label-text);
-    text-transform: uppercase;
-}
-
-/* ---------- LCD Display ---------- */
-.rtd-display {
-    background: var(--lcd-bg);
-    border: 2px inset #111;
-    border-radius: 4px;
-    padding: 8px 14px;
-    margin-bottom: 14px;
+/* ---------- Top bar: Power + Brand + extras ---------- */
+.rtd-top-bar {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    min-height: 52px;
-}
-
-.rtd-display-track {
-    color: var(--lcd-text);
-    font-size: 13px;
-    flex: 1;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.rtd-display-track.scrolling {
-    animation: rtd-scroll 10s linear infinite;
-}
-
-@keyframes rtd-scroll {
-    0%   { transform: translateX(0); }
-    100% { transform: translateX(-100%); }
-}
-
-.rtd-display-time {
-    color: var(--lcd-text);
-    font-size: 18px;
-    min-width: 70px;
-    text-align: right;
-    font-variant-numeric: tabular-nums;
-}
-
-/* ---------- VU Meter ---------- */
-.rtd-vu-container {
-    display: flex;
-    gap: 6px;
-    justify-content: center;
-    margin-bottom: 12px;
-}
-
-.rtd-vu-meter {
-    display: flex;
-    gap: 2px;
-    align-items: flex-end;
-    height: 22px;
-}
-
-.rtd-vu-meter .vu-bar {
-    width: 6px;
-    background: var(--led-green);
-    border-radius: 1px;
-    transition: height 0.08s ease;
-    height: 2px;
-}
-
-.rtd-vu-meter .vu-bar:nth-child(n+9) {
-    background: var(--led-amber);
-}
-
-.rtd-vu-meter .vu-bar:nth-child(n+12) {
-    background: var(--led-red);
-}
-
-.rtd-vu-label {
-    font-size: 9px;
-    color: var(--label-text);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    writing-mode: vertical-lr;
-    transform: rotate(180deg);
-}
-
-/* ---------- Dual cassette wells ---------- */
-.rtd-wells {
-    display: flex;
-    gap: 12px;
+    justify-content: space-between;
     margin-bottom: 14px;
+    padding: 0 2px;
 }
 
-.rtd-well {
-    flex: 1;
-    background: var(--cassette-well);
-    border: 2px inset #111;
-    border-radius: 6px;
-    padding: 14px 10px;
-    position: relative;
-    min-height: 120px;
+.rtd-power-section {
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 
-.rtd-well-label {
-    position: absolute;
-    top: 4px;
-    left: 8px;
+.rtd-power-label {
     font-size: 9px;
+    font-weight: 600;
     color: var(--label-text);
     text-transform: uppercase;
     letter-spacing: 2px;
 }
 
-/* ---------- Tape reels ---------- */
-.rtd-reels {
+.rtd-led {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--led-off);
+    border: 1px solid #5a4a3a;
+    display: inline-block;
+}
+
+.rtd-led.on {
+    background: var(--led-on);
+    box-shadow: 0 0 6px rgba(238, 68, 34, 0.6);
+}
+
+.rtd-brand {
+    text-align: center;
+}
+
+.rtd-brand-name {
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--label-text);
+}
+
+.rtd-brand-model {
+    font-size: 8px;
+    letter-spacing: 2px;
+    color: var(--label-light);
+    text-transform: uppercase;
+    margin-top: 1px;
+}
+
+.rtd-counter-section {
+    text-align: right;
+}
+
+.rtd-counter-label {
+    font-size: 8px;
+    font-weight: 600;
+    color: var(--label-light);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 2px;
+}
+
+/* ---------- Cassette window ---------- */
+.rtd-cassette-window {
+    background: var(--well-bg);
+    border: 2px solid var(--well-border);
+    border-radius: 4px;
+    padding: 12px;
+    margin-bottom: 12px;
+    box-shadow:
+        inset 0 2px 6px rgba(0, 0, 0, 0.12),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.3);
+}
+
+/* The cassette body */
+.rtd-cassette {
+    background: var(--cassette-bg);
+    border: 1px solid var(--cassette-border);
+    border-radius: 6px;
+    padding: 10px 16px 14px;
+    position: relative;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+/* Cassette label area */
+.rtd-cassette-label {
+    background: linear-gradient(135deg, #f0d4a8 0%, #e8c090 40%, #e0b878 100%);
+    border: 1px solid var(--cassette-label-border);
+    border-radius: 3px;
+    padding: 6px 12px;
+    margin-bottom: 10px;
+    position: relative;
+    min-height: 36px;
     display: flex;
-    justify-content: space-around;
     align-items: center;
-    padding-top: 10px;
+    justify-content: space-between;
+}
+
+.rtd-cassette-label-lines {
+    position: absolute;
+    top: 8px;
+    left: 10px;
+    right: 10px;
+    bottom: 8px;
+    border-top: 1px solid rgba(180, 140, 80, 0.3);
+    border-bottom: 1px solid rgba(180, 140, 80, 0.3);
+}
+
+.rtd-cassette-label-lines::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: rgba(180, 140, 80, 0.2);
+}
+
+.rtd-cassette-side {
+    font-size: 9px;
+    font-weight: 700;
+    color: #8a6a40;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    z-index: 1;
+}
+
+.rtd-cassette-type {
+    font-size: 7px;
+    color: #8a6a40;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    z-index: 1;
+    text-align: right;
+}
+
+.rtd-cassette-type span {
+    display: block;
+}
+
+/* Reels + tape area */
+.rtd-reels-area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    position: relative;
+    padding: 4px 0 0;
 }
 
 .rtd-reel {
-    width: 60px;
-    height: 60px;
+    width: 52px;
+    height: 52px;
     border-radius: 50%;
     background: var(--reel-hub);
-    border: 3px solid #555;
+    border: 3px solid #4a4038;
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 2;
 }
 
 .rtd-reel-inner {
-    width: 18px;
-    height: 18px;
-    background: #111;
+    width: 16px;
+    height: 16px;
+    background: #1a1510;
     border-radius: 50%;
-    border: 2px solid #444;
+    border: 2px solid #3d3630;
+    z-index: 3;
 }
 
 /* Spokes */
@@ -227,9 +261,8 @@
     transform: translateX(-50%) rotate(120deg);
 }
 
-/* Spinning animation */
 .rtd-reel.spinning {
-    animation: rtd-spin 2s linear infinite;
+    animation: rtd-spin 1.8s linear infinite;
 }
 
 @keyframes rtd-spin {
@@ -237,101 +270,191 @@
     to   { transform: rotate(360deg); }
 }
 
-/* Tape strip between reels */
-.rtd-tape-strip {
-    position: absolute;
-    top: 75%;
-    left: 20%;
-    right: 20%;
-    height: 6px;
+/* Tape between reels */
+.rtd-tape-bridge {
+    width: 80px;
+    height: 10px;
     background: var(--tape-brown);
     border-radius: 2px;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+    margin: 0 -6px;
+    align-self: flex-end;
+    margin-bottom: 8px;
 }
 
-/* ---------- Transport controls ---------- */
+/* Small guide posts */
+.rtd-cassette-guides {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 28px;
+    margin-top: -2px;
+}
+
+.rtd-guide-post {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #c8c0b0;
+    border: 1px solid #a8a090;
+}
+
+/* ---------- LCD counter display ---------- */
+.rtd-display {
+    background: var(--lcd-bg);
+    border: 2px solid #1a1a14;
+    border-radius: 3px;
+    padding: 6px 12px;
+    margin-bottom: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 40px;
+    box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+.rtd-display-track {
+    color: var(--lcd-text);
+    font-family: "Courier New", Courier, monospace;
+    font-size: 12px;
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.rtd-display-time {
+    color: var(--lcd-text);
+    font-family: "Courier New", Courier, monospace;
+    font-size: 16px;
+    min-width: 60px;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+/* ---------- VU Meter ---------- */
+.rtd-vu-container {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    margin-bottom: 12px;
+}
+
+.rtd-vu-meter {
+    display: flex;
+    gap: 2px;
+    align-items: flex-end;
+    height: 18px;
+}
+
+.rtd-vu-meter .vu-bar {
+    width: 5px;
+    background: #66bb66;
+    border-radius: 1px;
+    transition: height 0.08s ease;
+    height: 2px;
+}
+
+.rtd-vu-meter .vu-bar:nth-child(n+9) {
+    background: #ccaa33;
+}
+
+.rtd-vu-meter .vu-bar:nth-child(n+12) {
+    background: #cc4433;
+}
+
+.rtd-vu-label {
+    font-size: 8px;
+    color: var(--label-light);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    writing-mode: vertical-lr;
+    transform: rotate(180deg);
+}
+
+/* ---------- Transport button row ---------- */
+.rtd-controls-section {
+    border-top: 1px solid var(--well-border);
+    padding-top: 14px;
+    margin-bottom: 10px;
+}
+
 .rtd-controls {
     display: flex;
     justify-content: center;
-    gap: 6px;
-    margin-bottom: 14px;
+    gap: 5px;
+    margin-bottom: 4px;
 }
 
 .rtd-btn {
-    width: 48px;
-    height: 36px;
-    background: linear-gradient(to bottom, var(--btn-highlight), var(--btn-face));
-    border: 2px outset var(--btn-highlight);
+    width: 52px;
+    height: 32px;
+    background: linear-gradient(180deg, #e8e0d4 0%, var(--btn-bg) 50%, #ccc4b8 100%);
+    border: 1px solid var(--btn-border);
+    border-bottom: 2px solid #a8a090;
     border-radius: 3px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #ddd;
-    font-size: 14px;
-    transition: all 0.05s;
+    transition: all 0.06s;
     position: relative;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.08);
 }
 
 .rtd-btn:hover {
-    background: linear-gradient(to bottom, #999, #777);
+    background: linear-gradient(180deg, #f0e8dc 0%, #e0d8cc 50%, #d4ccc0 100%);
 }
 
 .rtd-btn:active,
 .rtd-btn.active {
-    border-style: inset;
-    background: linear-gradient(to bottom, #555, #666);
-    padding-top: 2px;
-}
-
-.rtd-btn svg {
-    width: 16px;
-    height: 16px;
-    fill: #ddd;
+    background: linear-gradient(180deg, #c8c0b4 0%, var(--btn-pressed) 50%, #d0c8bc 100%);
+    border-bottom-width: 1px;
+    margin-top: 1px;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .rtd-btn-label {
     position: absolute;
-    bottom: -14px;
+    bottom: -13px;
     font-size: 7px;
+    font-weight: 600;
     color: var(--label-text);
     text-transform: uppercase;
     letter-spacing: 1px;
     white-space: nowrap;
 }
 
-/* Play button – triangular icon via CSS */
+/* Icon colors for light theme */
 .rtd-btn-play .icon-play {
     width: 0;
     height: 0;
-    border-top: 7px solid transparent;
-    border-bottom: 7px solid transparent;
-    border-left: 12px solid #ddd;
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-left: 10px solid var(--label-text);
     margin-left: 2px;
 }
 
-/* Pause icon */
 .rtd-btn-pause .icon-pause {
     display: flex;
     gap: 3px;
 }
 
 .rtd-btn-pause .icon-pause span {
-    width: 4px;
-    height: 14px;
-    background: #ddd;
-    border-radius: 1px;
-}
-
-/* Stop icon */
-.rtd-btn-stop .icon-stop {
-    width: 12px;
+    width: 3px;
     height: 12px;
-    background: #ddd;
+    background: var(--label-text);
     border-radius: 1px;
 }
 
-/* Rewind icon */
+.rtd-btn-stop .icon-stop {
+    width: 10px;
+    height: 10px;
+    background: var(--label-text);
+    border-radius: 1px;
+}
+
 .rtd-btn-rew .icon-rew {
     display: flex;
     align-items: center;
@@ -340,12 +463,11 @@
 .rtd-btn-rew .icon-rew span {
     width: 0;
     height: 0;
-    border-top: 6px solid transparent;
-    border-bottom: 6px solid transparent;
-    border-right: 8px solid #ddd;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-right: 7px solid var(--label-text);
 }
 
-/* Fast-forward icon */
 .rtd-btn-ff .icon-ff {
     display: flex;
     align-items: center;
@@ -354,12 +476,11 @@
 .rtd-btn-ff .icon-ff span {
     width: 0;
     height: 0;
-    border-top: 6px solid transparent;
-    border-bottom: 6px solid transparent;
-    border-left: 8px solid #ddd;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 7px solid var(--label-text);
 }
 
-/* Prev / Next track */
 .rtd-btn-prev .icon-prev,
 .rtd-btn-next .icon-next {
     display: flex;
@@ -368,63 +489,73 @@
 }
 
 .rtd-btn-prev .icon-prev span:first-child {
-    width: 3px;
-    height: 12px;
-    background: #ddd;
+    width: 2px;
+    height: 10px;
+    background: var(--label-text);
 }
 
 .rtd-btn-prev .icon-prev span:last-child {
     width: 0;
     height: 0;
-    border-top: 6px solid transparent;
-    border-bottom: 6px solid transparent;
-    border-right: 8px solid #ddd;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-right: 7px solid var(--label-text);
 }
 
 .rtd-btn-next .icon-next span:first-child {
     width: 0;
     height: 0;
-    border-top: 6px solid transparent;
-    border-bottom: 6px solid transparent;
-    border-left: 8px solid #ddd;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 7px solid var(--label-text);
 }
 
 .rtd-btn-next .icon-next span:last-child {
-    width: 3px;
-    height: 12px;
-    background: #ddd;
+    width: 2px;
+    height: 10px;
+    background: var(--label-text);
 }
 
-/* Eject */
 .rtd-btn-eject .icon-eject {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 2px;
+    gap: 1px;
 }
 
 .rtd-btn-eject .icon-eject span:first-child {
     width: 0;
     height: 0;
-    border-left: 6px solid transparent;
-    border-right: 6px solid transparent;
-    border-bottom: 7px solid #ddd;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 6px solid var(--label-text);
 }
 
 .rtd-btn-eject .icon-eject span:last-child {
-    width: 14px;
-    height: 3px;
-    background: #ddd;
+    width: 12px;
+    height: 2px;
+    background: var(--label-text);
     border-radius: 1px;
+}
+
+/* Rec indicator dot on stop/eject button area */
+.rtd-rec-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: inline-block;
+    margin-right: 3px;
+    vertical-align: middle;
 }
 
 /* ---------- Volume / progress row ---------- */
 .rtd-sliders-row {
     display: flex;
-    gap: 16px;
+    gap: 14px;
     align-items: center;
     margin-bottom: 10px;
-    padding: 0 4px;
+    padding: 0 2px;
 }
 
 .rtd-slider-group {
@@ -434,11 +565,12 @@
 }
 
 .rtd-slider-group label {
-    font-size: 9px;
+    font-size: 8px;
+    font-weight: 600;
     color: var(--label-text);
     text-transform: uppercase;
     letter-spacing: 1px;
-    min-width: 46px;
+    min-width: 42px;
 }
 
 .rtd-progress-wrap {
@@ -449,27 +581,27 @@
 }
 
 .rtd-progress-wrap label {
-    font-size: 9px;
+    font-size: 8px;
+    font-weight: 600;
     color: var(--label-text);
     text-transform: uppercase;
     letter-spacing: 1px;
 }
 
-/* Styled range sliders */
 .rtd-slider,
 .rtd-progress-bar {
     -webkit-appearance: none;
     appearance: none;
-    height: 6px;
-    background: #222;
-    border: 1px inset #111;
-    border-radius: 3px;
+    height: 4px;
+    background: #c0b8a8;
+    border: 1px solid #a8a090;
+    border-radius: 2px;
     outline: none;
     cursor: pointer;
 }
 
 .rtd-slider {
-    width: 80px;
+    width: 70px;
 }
 
 .rtd-progress-bar {
@@ -479,34 +611,37 @@
 .rtd-slider::-webkit-slider-thumb,
 .rtd-progress-bar::-webkit-slider-thumb {
     -webkit-appearance: none;
-    width: 14px;
-    height: 18px;
-    background: linear-gradient(to bottom, #aaa, #666);
-    border: 1px solid #444;
+    width: 12px;
+    height: 16px;
+    background: linear-gradient(to bottom, #f0e8dc, #d0c8b8);
+    border: 1px solid #a0988a;
     border-radius: 2px;
     cursor: pointer;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .rtd-slider::-moz-range-thumb,
 .rtd-progress-bar::-moz-range-thumb {
-    width: 14px;
-    height: 18px;
-    background: linear-gradient(to bottom, #aaa, #666);
-    border: 1px solid #444;
+    width: 12px;
+    height: 16px;
+    background: linear-gradient(to bottom, #f0e8dc, #d0c8b8);
+    border: 1px solid #a0988a;
     border-radius: 2px;
     cursor: pointer;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-/* ---------- Playlist drawer (Deck B) ---------- */
+/* ---------- Playlist drawer ---------- */
 .rtd-playlist-toggle {
     display: block;
     width: 100%;
-    background: linear-gradient(to bottom, #555, #444);
-    border: 2px outset #666;
+    background: linear-gradient(180deg, #e0d8cc, #d4ccc0);
+    border: 1px solid var(--btn-border);
     border-radius: 3px;
     color: var(--label-text);
     font-family: inherit;
-    font-size: 10px;
+    font-size: 9px;
+    font-weight: 600;
     letter-spacing: 2px;
     text-transform: uppercase;
     padding: 5px 0;
@@ -515,15 +650,15 @@
 }
 
 .rtd-playlist-toggle:hover {
-    background: linear-gradient(to bottom, #666, #555);
+    background: linear-gradient(180deg, #e8e0d4, #dcd4c8);
 }
 
 .rtd-playlist {
     display: none;
     max-height: 200px;
     overflow-y: auto;
-    background: #111;
-    border: 1px inset #000;
+    background: #f8f4ee;
+    border: 1px solid var(--btn-border);
     border-radius: 3px;
 }
 
@@ -540,134 +675,77 @@
 .rtd-playlist li {
     padding: 6px 10px;
     font-size: 11px;
-    color: #aaa;
+    color: var(--label-text);
     cursor: pointer;
-    border-bottom: 1px solid #222;
+    border-bottom: 1px solid #e8e0d4;
     display: flex;
     justify-content: space-between;
+    transition: background 0.1s;
+}
+
+.rtd-playlist li:last-child {
+    border-bottom: none;
 }
 
 .rtd-playlist li:hover {
-    background: #1a2a10;
-    color: var(--lcd-text);
+    background: #ede6da;
 }
 
 .rtd-playlist li.active {
-    background: #1a2a10;
-    color: var(--lcd-text);
+    background: #e0d8c8;
+    font-weight: 600;
 }
 
 .rtd-playlist li .track-num {
     min-width: 22px;
-    color: #666;
+    color: var(--label-light);
 }
 
 .rtd-playlist li .track-duration {
-    color: #666;
+    color: var(--label-light);
     font-size: 10px;
 }
 
-/* ---------- Bottom label strip ---------- */
+/* ---------- Footer ---------- */
 .rtd-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding-top: 6px;
-    border-top: 1px solid #555;
+    border-top: 1px solid var(--well-border);
+    margin-top: 6px;
 }
 
 .rtd-footer-left,
 .rtd-footer-right {
-    font-size: 8px;
-    color: #666;
+    font-size: 7px;
+    color: var(--label-light);
     text-transform: uppercase;
     letter-spacing: 2px;
 }
 
-/* ---------- LED indicator ---------- */
-.rtd-led {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: #220000;
-    border: 1px solid #333;
-    display: inline-block;
-    margin-right: 4px;
-    vertical-align: middle;
-}
-
-.rtd-led.on {
-    background: var(--led-green);
-    box-shadow: 0 0 6px var(--led-green);
-}
-
-.rtd-led.recording {
-    background: var(--led-red);
-    box-shadow: 0 0 6px var(--led-red);
-}
-
-/* ---------- Deck label badges ---------- */
-.rtd-deck-badge {
-    display: inline-block;
-    background: #d4af37;
-    color: #111;
-    font-size: 9px;
-    font-weight: bold;
-    padding: 1px 6px;
-    border-radius: 2px;
-    letter-spacing: 2px;
-    position: absolute;
-    top: 4px;
-    right: 8px;
-}
-
-/* ---------- Screws (decorative) ---------- */
-.rtd-screw {
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 35% 35%, #888, #333);
-    border: 1px solid #222;
-}
-
-.rtd-screw::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 6px;
-    height: 1px;
-    background: #111;
-    transform: translate(-50%, -50%) rotate(30deg);
-}
-
-.rtd-screw.tl { top: 6px; left: 6px; }
-.rtd-screw.tr { top: 6px; right: 6px; }
-.rtd-screw.bl { bottom: 6px; left: 6px; }
-.rtd-screw.br { bottom: 6px; right: 6px; }
-
 /* ---------- Responsive ---------- */
 @media (max-width: 600px) {
     .rtd-player {
-        padding: 14px 10px 12px;
-    }
-
-    .rtd-wells {
-        flex-direction: column;
+        padding: 14px 12px 12px;
+        max-width: 100%;
     }
 
     .rtd-btn {
-        width: 38px;
-        height: 30px;
+        width: 40px;
+        height: 28px;
+    }
+
+    .rtd-btn-label {
+        font-size: 6px;
     }
 
     .rtd-display-track {
-        font-size: 11px;
+        font-size: 10px;
     }
 
     .rtd-display-time {
-        font-size: 14px;
+        font-size: 13px;
     }
 
     .rtd-sliders-row {
@@ -676,7 +754,21 @@
     }
 
     .rtd-brand-name {
-        font-size: 16px;
-        letter-spacing: 4px;
+        font-size: 12px;
+        letter-spacing: 3px;
+    }
+
+    .rtd-reel {
+        width: 42px;
+        height: 42px;
+    }
+
+    .rtd-tape-bridge {
+        width: 60px;
+    }
+
+    .rtd-top-bar {
+        flex-wrap: wrap;
+        gap: 4px;
     }
 }

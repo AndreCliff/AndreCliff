@@ -2,10 +2,9 @@
     "use strict";
 
     /* ================================================================
-       Retro Tape Deck MP3 Player – JavaScript Engine
+       Retro Tape Deck MP3 Player – JavaScript Engine (Single Deck)
        ================================================================ */
 
-    // --- Utility -----------------------------------------------------------
     function formatTime(sec) {
         if (!isFinite(sec) || sec < 0) return "0:00";
         var m = Math.floor(sec / 60);
@@ -13,14 +12,12 @@
         return m + ":" + (s < 10 ? "0" : "") + s;
     }
 
-    // --- Initialise each player instance -----------------------------------
     document.addEventListener("DOMContentLoaded", function () {
         var players = document.querySelectorAll(".rtd-player");
         players.forEach(initPlayer);
     });
 
     function initPlayer(root) {
-        // Parse track list from embedded JSON
         var dataEl = root.querySelector(".rtd-track-data");
         if (!dataEl) return;
         var tracks = [];
@@ -31,7 +28,6 @@
         }
         if (!tracks.length) return;
 
-        // State
         var currentIndex = 0;
         var audio = new Audio();
         audio.preload = "metadata";
@@ -39,7 +35,7 @@
 
         // DOM refs
         var displayTrack = root.querySelector(".rtd-display-track");
-        var displayTime = root.querySelector(".rtd-display-time");
+        var displayTimes = root.querySelectorAll(".rtd-display-time");
         var progressBar = root.querySelector(".rtd-progress-bar");
         var volumeSlider = root.querySelector(".rtd-volume");
         var btnPlay = root.querySelector(".rtd-btn-play");
@@ -50,16 +46,15 @@
         var btnPrev = root.querySelector(".rtd-btn-prev");
         var btnNext = root.querySelector(".rtd-btn-next");
         var btnEject = root.querySelector(".rtd-btn-eject");
-        var reelsA = root.querySelectorAll(".rtd-well-a .rtd-reel");
-        var reelsB = root.querySelectorAll(".rtd-well-b .rtd-reel");
+        var reels = root.querySelectorAll(".rtd-reel");
         var led = root.querySelector(".rtd-led");
         var playlistToggle = root.querySelector(".rtd-playlist-toggle");
         var playlistEl = root.querySelector(".rtd-playlist");
         var vuBarsL = root.querySelectorAll(".rtd-vu-left .vu-bar");
         var vuBarsR = root.querySelectorAll(".rtd-vu-right .vu-bar");
 
-        // --- Audio context for VU meters ---
-        var audioCtx, analyser, splitter, analyserL, analyserR, sourceNode;
+        // Audio context for VU meters
+        var audioCtx, splitter, analyserL, analyserR, sourceNode;
 
         function initAudioContext() {
             if (audioCtx) return;
@@ -81,7 +76,7 @@
             }
         }
 
-        // --- VU meter animation ---
+        // VU meter animation
         var vuFrame;
         function animateVU() {
             if (!audioCtx || audio.paused) {
@@ -103,7 +98,7 @@
             for (var i = 0; i < len; i++) {
                 var idx = Math.floor((i / len) * data.length);
                 var val = data[idx] / 255;
-                var h = Math.max(2, val * 22);
+                var h = Math.max(2, val * 18);
                 bars[i].style.height = h + "px";
             }
         }
@@ -116,18 +111,25 @@
             });
         }
 
-        // --- Load track ---
+        // Update all time displays (counter in top-bar + LCD)
+        function updateTimeDisplays(text) {
+            for (var i = 0; i < displayTimes.length; i++) {
+                displayTimes[i].textContent = text;
+            }
+        }
+
+        // Load track
         function loadTrack(index) {
             if (index < 0 || index >= tracks.length) return;
             currentIndex = index;
             audio.src = tracks[index].url;
             displayTrack.textContent = tracks[index].title;
-            displayTime.textContent = "0:00";
+            updateTimeDisplays("0:00");
             if (progressBar) progressBar.value = 0;
             highlightPlaylistItem();
         }
 
-        // --- Transport controls ---
+        // Transport controls
         function play() {
             if (!audio.src) loadTrack(0);
             initAudioContext();
@@ -153,7 +155,7 @@
             setReelsSpinning(false);
             if (led) led.classList.remove("on");
             if (btnPlay) btnPlay.classList.remove("active");
-            displayTime.textContent = "0:00";
+            updateTimeDisplays("0:00");
             if (progressBar) progressBar.value = 0;
             resetVU();
         }
@@ -188,22 +190,18 @@
             audio.src = "";
         }
 
-        // --- Reel animation ---
+        // Reel animation (single deck – all reels)
         function setReelsSpinning(spinning) {
-            var allReels = [].concat(
-                Array.prototype.slice.call(reelsA),
-                Array.prototype.slice.call(reelsB)
-            );
-            allReels.forEach(function (r) {
+            for (var i = 0; i < reels.length; i++) {
                 if (spinning) {
-                    r.classList.add("spinning");
+                    reels[i].classList.add("spinning");
                 } else {
-                    r.classList.remove("spinning");
+                    reels[i].classList.remove("spinning");
                 }
-            });
+            }
         }
 
-        // --- Playlist ---
+        // Playlist
         function buildPlaylist() {
             if (!playlistEl) return;
             var ol = playlistEl.querySelector("ol");
@@ -238,7 +236,7 @@
             return div.innerHTML;
         }
 
-        // --- Event listeners ---
+        // Event listeners
         if (btnPlay) btnPlay.addEventListener("click", play);
         if (btnPause) btnPause.addEventListener("click", pause);
         if (btnStop) btnStop.addEventListener("click", stop);
@@ -270,7 +268,7 @@
 
         // Audio events
         audio.addEventListener("timeupdate", function () {
-            displayTime.textContent = formatTime(audio.currentTime);
+            updateTimeDisplays(formatTime(audio.currentTime));
             if (progressBar && audio.duration) {
                 progressBar.value = (audio.currentTime / audio.duration) * 100;
             }
@@ -281,7 +279,6 @@
         });
 
         audio.addEventListener("loadedmetadata", function () {
-            // Update duration in playlist
             if (playlistEl) {
                 var items = playlistEl.querySelectorAll("li");
                 if (items[currentIndex]) {
@@ -291,7 +288,7 @@
             }
         });
 
-        // --- Bootstrap ---
+        // Bootstrap
         loadTrack(0);
         buildPlaylist();
     }
