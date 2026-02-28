@@ -2,7 +2,7 @@
 
 # 👋 Hi, I’m Andre Cliff!
 
-**Aspiring AI Implementation Specialist | AI Enthusiast | Veteran | Music Producer**
+**AI Implementation Specialist | AI Enthusiast | Veteran | Music Producer**
 
 Welcome to my GitHub!  
 I’m all-in on AI, creative tech, and building tools that make life and work easier (or just more interesting). Whether it’s developing prompt systems, experimenting with generative AI, or cooking up the next digital side project, you’ll probably find it here.
