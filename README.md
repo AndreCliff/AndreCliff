@@ -1,11 +1,13 @@
 <!-- AndreCliff's GitHub Profile README -->
 
-# 👋 Hi, I’m Andre Cliff!
+👋 Hi, I’m Andre Cliff!
 
-**AI Implementation Specialist | AI Enthusiast | Veteran | Music Producer**
+AI Implementation Specialist | Veteran | Music Producer
 
-Welcome to my GitHub!  
-I’m all-in on AI, creative tech, and building tools that make life and work easier (or just more interesting). Whether it’s developing prompt systems, experimenting with generative AI, or cooking up the next digital side project, you’ll probably find it here.
+Welcome to my GitHub.
+I work hands-on with AI systems, focusing on chatbot performance, prompt design, and content curation. A lot of what I do sits in that human-in-the-loop space, refining outputs, improving consistency, and making sure these systems actually hold up in real use.
+
+Outside of that, I build. Most of what you’ll find here lives at the intersection of AI, music, and practical tools. Current focus is BreakBeatBuilder.com, a browser-based tool for creating original breakbeats and drum patterns outside of a DAW, with export options for stems and MIDI.
 
 ---
 
