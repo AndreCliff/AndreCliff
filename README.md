@@ -28,8 +28,9 @@ ChatGPT | Claude | Claude Code | MidJourney | Google Veo 3
 For building and publishing:
 HTML/CSS | AI APIs | WordPress
 
-For music:
+For Music:
 FL Studio | Audacity
+
 ---
 
 ## 🎵 Side Hustles
