@@ -20,10 +20,16 @@ Outside of that, I build. Most of what you’ll find here lives at the intersect
 
 ---
 
-## 🚀 Tech & Tools
+🚀 Tech & Tools
 
-`Python` | `JavaScript` | `HTML/CSS` | `AI APIs` | `WordPress` | `FL Studio`
+Mostly working inside AI tools and creative software:
+ChatGPT | Claude | Claude Code | MidJourney | Google Veo 3
 
+For building and publishing:
+HTML/CSS | AI APIs | WordPress
+
+For music:
+FL Studio | Audacity
 ---
 
 ## 🎵 Side Hustles
