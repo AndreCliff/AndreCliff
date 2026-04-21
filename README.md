@@ -11,7 +11,7 @@ I’m all-in on AI, creative tech, and building tools that make life and work ea
 
 ## 🧠 What I’m Working On
 
-- **Arklyt** — My custom GPT + AI art prompt system (for DALL·E, MidJourney, Sora, and more)
+- Building BreakBeatBuilder.com, a web app that gives you a space outside your DAW to create original breakbeats and drum patterns. Once you’ve got something, you can download stems or MIDI and drop it straight into your workflow. Free and pro tiers available.
 - Learning and building with [Google Cloud Generative AI](https://www.cloudskillsboost.google/), earned the badge!
 - Developing digital products, automation tools, and creative workflows  
 - Documenting everything I learn about prompt engineering, AI, and tech
